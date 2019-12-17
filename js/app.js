@@ -3,7 +3,7 @@
 // Global variables
 var allProducts = [];
 var totalClicks = 0;
-var numOfRounds = 25;
+var numOfRounds = 5;
 var randoOne, randoTwo, randoThree, prevRandoOne, prevRandoTwo, prevRandoThree;
 var productImage = document.getElementsByTagName('img');
 var lineHolder = document.getElementById('final-results');
@@ -79,7 +79,6 @@ for(var i = 1; i < productImage.length; i++) {
 // does't allow user to select more than 25 images
 function picked() {
   if (totalClicks < numOfRounds) {
-    totalClicks++;
     if(event.srcElement.id === 'optionOne') {
       allProducts[randoOne].score++;
       allProducts[randoOne].selected = true;
@@ -90,9 +89,8 @@ function picked() {
       allProducts[randoThree].score++;
       allProducts[randoThree].selected = true;
     }
-    genRandomNum();
-    displayImages();
-  } else {
+  }
+  if (totalClicks === numOfRounds - 1) {
     for(var i = 1; i < productImage.length; i++) {
       productImage[i].removeEventListener('click', picked);
     }
@@ -100,6 +98,11 @@ function picked() {
       allProducts[i].displayResults();
     }
   }
+  if (totalClicks < numOfRounds - 1) {
+    genRandomNum();
+    displayImages();
+  }
+  totalClicks++;
 }
 
 GetProducts.prototype.displayResults = function() {
