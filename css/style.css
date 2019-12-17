@@ -17,7 +17,10 @@ header img {
 h1 {
   font-size: xx-large;
 }
-h3 {
+h2 {
+  font-size: x-large;
+}
+h4 {
   font-size: large;
 }
 aside {
@@ -32,7 +35,7 @@ aside {
   height: 600px;
   width: 800px;
   background-color: #aaa;
-} 
+}
 .product-images img {
   height: 300px;
   width: 250px;
@@ -47,4 +50,4 @@ article {
   margin: 10px;
   overflow-y: scroll;
   max-height: 250px;
-} 
+}
