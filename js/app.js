@@ -5,7 +5,7 @@ var optionOne = 0;
 var optionTwo = 1;
 var optionThree = 2;
 var totalClicks = 0;
-var randoOne, randoTwo, randoThree;
+var randoOne, randoTwo, randoThree, prevRandoOne, prevRandoTwo, prevRandoThree;
 var productImage = document.getElementsByTagName('img');
 
 // Product constructor
@@ -37,28 +37,51 @@ new GetProducts('Can o\' Unicorn Meat', 'img/unicorn.jpg');
 new GetProducts('Tentacle USB Drive 128MB', 'img/usb.gif');
 new GetProducts('Self-Watering Water Can', 'img/water-can.jpg');
 new GetProducts('Smell This Wine Glass', 'img/wine-glass.jpg');
-// debugger;
+
 // Generate random number be 0-19
 function genRandomNum() {
   randoOne = Math.floor(Math.random() * 20);
   while (randoOne === prevRandoOne || randoOne === prevRandoTwo || randoOne === prevRandoThree) {
     randoOne = Math.floor(Math.random() * 20);
   }
-  var prevRandoOne = randoOne;
+  prevRandoOne = randoOne;
   randoTwo = Math.floor(Math.random() * 20);
   while (randoTwo === prevRandoOne || randoTwo === prevRandoTwo || randoTwo === prevRandoThree || randoTwo === randoOne) {
     randoTwo = Math.floor(Math.random() * 20);
   }
-  var prevRandoTwo = randoTwo;
+  prevRandoTwo = randoTwo;
   randoThree = Math.floor(Math.random() * 20);
   while (randoThree === prevRandoOne || randoThree === prevRandoTwo || randoThree === prevRandoThree || randoThree === randoOne || randoThree === randoTwo){
     randoThree = Math.floor(Math.random() * 20);
   }
-  var prevRandoThree = randoThree;
+  prevRandoThree = randoThree;
 }
 
-genRandomNum();
 // Set product images 1-3
-productImage[1].src = allProducts[randoOne].imageUrl;
-productImage[2].src = allProducts[randoTwo].imageUrl;
-productImage[3].src = allProducts[randoThree].imageUrl;
+function displayImages() {
+  productImage[1].src = allProducts[randoOne].imageUrl;
+  productImage[2].src = allProducts[randoTwo].imageUrl;
+  productImage[3].src = allProducts[randoThree].imageUrl;
+}
+
+for(var i = 1; i < productImage.length; i++) {
+  productImage[i].addEventListener('click', picked);
+}
+
+function picked() {
+  totalClicks++;
+  if(event.srcElement.id === 'optionOne') {
+    allProducts[randoOne].score++;
+  } else if(event.srcElement.id === 'optionTwo') {
+    allProducts[randoTwo].score++;
+  } else if(event.srcElement.id === 'optionThree') {
+    allProducts[randoThree].score++;
+  }
+  genRandomNum();
+  displayImages();
+}
+
+
+
+genRandomNum();
+displayImages();
