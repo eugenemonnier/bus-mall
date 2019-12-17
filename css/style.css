@@ -10,35 +10,41 @@ header img {
   margin: 20px auto;
 }
 .header-text {
-  display: inline-block;
   float: right;
   margin-top: 27px;
 } 
 h1 {
   font-size: xx-large;
 }
-h3 {
+h2 {
+  font-size: x-large;
+  text-align: center;
+  border-bottom: 2px solid black;
+  margin-bottom: 10px;
+}
+h4 {
   font-size: large;
 }
 aside {
   float: left;
   height: 600px;
-  width: 200px;
+  width: 250px;
   background-color: #ddd;
   margin-right: 10px;
+  overflow-y: scroll;
 }
 .products {
   display: inline-block;
   height: 600px;
   width: 800px;
   background-color: #aaa;
-} 
+}
 .product-images img {
   height: 300px;
   width: 250px;
   background-color: #ddd;
   margin-left: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   margin-top: 10px;
 }
 article {
@@ -46,5 +52,8 @@ article {
   max-width: 780px;
   margin: 10px;
   overflow-y: scroll;
-  max-height: 250px;
-} 
+  max-height: 220px;
+}
+li {
+  margin-bottom: 10px;
+}
