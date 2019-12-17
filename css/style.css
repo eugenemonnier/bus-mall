@@ -1,0 +1,59 @@
+body {
+  margin: 0% 2%;
+}
+.header-logo {
+  display: inline-block;
+}
+header img {
+  display: inline-block;
+  width: 100px;
+  margin: 20px auto;
+}
+.header-text {
+  float: right;
+  margin-top: 27px;
+} 
+h1 {
+  font-size: xx-large;
+}
+h2 {
+  font-size: x-large;
+  text-align: center;
+  border-bottom: 2px solid black;
+  margin-bottom: 10px;
+}
+h4 {
+  font-size: large;
+}
+aside {
+  float: left;
+  height: 600px;
+  width: 250px;
+  background-color: #ddd;
+  margin-right: 10px;
+  overflow-y: scroll;
+}
+.products {
+  display: inline-block;
+  height: 600px;
+  width: 800px;
+  background-color: #aaa;
+}
+.product-images img {
+  height: 300px;
+  width: 250px;
+  background-color: #ddd;
+  margin-left: 10px;
+  margin-bottom: 50px;
+  margin-top: 10px;
+}
+article {
+  background-color: #ddd;
+  max-width: 780px;
+  margin: 10px;
+  overflow-y: scroll;
+  max-height: 220px;
+}
+li {
+  margin-bottom: 10px;
+}
