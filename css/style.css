@@ -1,0 +1,35 @@
+body {
+  margin: 0% 2%;
+}
+.header-logo {
+  display: inline-block;
+}
+header img {
+  display: inline-block;
+  width: 100px;
+  margin: 20px auto;
+}
+.header-text {
+  display: inline-block;
+  float: right;
+  margin-top: 27px;
+} 
+h1 {
+  font-size: xx-large;
+}
+h3 {
+  font-size: large;
+}
+aside {
+  float: left;
+  height: 600px;
+  width: 200px;
+  background-color: #ddd;
+  margin-right: 10px;
+}
+.products {
+  display: inline-block;
+  height: 600px;
+  width: 800px;
+  background-color: #aaa;
+} 
