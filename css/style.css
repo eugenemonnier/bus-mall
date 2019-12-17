@@ -33,3 +33,18 @@ aside {
   width: 800px;
   background-color: #aaa;
 } 
+.product-images img {
+  height: 300px;
+  width: 250px;
+  background-color: #ddd;
+  margin-left: 10px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+article {
+  background-color: #ddd;
+  max-width: 780px;
+  margin: 10px;
+  overflow-y: scroll;
+  max-height: 250px;
+} 
