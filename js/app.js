@@ -1,25 +1,26 @@
 
 // Global variables
 var allProducts = [];
-var optionOne = 0;
-var optionTwo = 1;
-var optionThree = 2;
 var totalClicks = 0;
+var numOfRounds = 25;
 var randoOne, randoTwo, randoThree, prevRandoOne, prevRandoTwo, prevRandoThree;
 var productImage = document.getElementsByTagName('img');
+var lineHolder = document.getElementById('final-results');
 
 // Product constructor
 function GetProducts(name, imageUrl) {
   this.name = name;
   this.imageUrl = imageUrl;
+  this.viewed = 0;
   this.score = 0;
+  this.selected = false;
   allProducts.push(this);
 }
 
 // build allProducts array
 new GetProducts('R2D2 Luggage', 'img/bag.jpg');
 new GetProducts('Banana Slicer', 'img/banana.jpg');
-new GetProducts('Toilet Stant', 'img/bathroom.jpg');
+new GetProducts('Toilet Stand', 'img/bathroom.jpg');
 new GetProducts('Open-Toed Rain Boots', 'img/boots.jpg');
 new GetProducts('Breakfast Station', 'img/breakfast.jpg');
 new GetProducts('Meatball Bubble Gum', 'img/bubblegum.jpg');
@@ -60,28 +61,53 @@ function genRandomNum() {
 // Set product images 1-3
 function displayImages() {
   productImage[1].src = allProducts[randoOne].imageUrl;
+  allProducts[randoOne].viewed++;
   productImage[2].src = allProducts[randoTwo].imageUrl;
+  allProducts[randoTwo].viewed++;
   productImage[3].src = allProducts[randoThree].imageUrl;
+  allProducts[randoThree].viewed++;
 }
 
 for(var i = 1; i < productImage.length; i++) {
   productImage[i].addEventListener('click', picked);
 }
 
+// Function called when user clicks on image
+// Adds to obj selected score
+// renders new random images
+// does't allow user to select more than 25 images
 function picked() {
-  totalClicks++;
-  if(event.srcElement.id === 'optionOne') {
-    allProducts[randoOne].score++;
-  } else if(event.srcElement.id === 'optionTwo') {
-    allProducts[randoTwo].score++;
-  } else if(event.srcElement.id === 'optionThree') {
-    allProducts[randoThree].score++;
+  if (totalClicks < numOfRounds) {
+    totalClicks++;
+    if(event.srcElement.id === 'optionOne') {
+      allProducts[randoOne].score++;
+      allProducts[randoOne].selected = true;
+    } else if(event.srcElement.id === 'optionTwo') {
+      allProducts[randoTwo].score++;
+      allProducts[randoTwo].selected++;
+    } else if(event.srcElement.id === 'optionThree') {
+      allProducts[randoThree].score++;
+      allProducts[randoThree].selected++;
+    }
+    genRandomNum();
+    displayImages();
+  } else {
+    for(var i = 1; i < productImage.length; i++) {
+      productImage[i].removeEventListener('click', picked);
+    }
+    for(i = 0; i < allProducts.length; i++) {
+      allProducts[i].displayResults();
+    }
   }
-  genRandomNum();
-  displayImages();
 }
 
-
+GetProducts.prototype.displayResults = function() {
+  if(this.selected === true) {
+    var newLi = document.createElement('li');
+    newLi.textContent = `${this.name} had ${this.score} votes and was shown ${this.viewed} time(s).`;
+    lineHolder.appendChild(newLi);
+  }
+};
 
 genRandomNum();
 displayImages();
