@@ -68,7 +68,7 @@ function displayImages() {
   productImage[3].src = allProducts[randoThree].imageUrl;
   allProducts[randoThree].viewed++;
 }
-
+// add event listener to those image tags
 for(var i = 1; i < productImage.length; i++) {
   productImage[i].addEventListener('click', picked);
 }
@@ -85,10 +85,10 @@ function picked() {
       allProducts[randoOne].selected = true;
     } else if(event.srcElement.id === 'optionTwo') {
       allProducts[randoTwo].score++;
-      allProducts[randoTwo].selected++;
+      allProducts[randoTwo].selected = true;
     } else if(event.srcElement.id === 'optionThree') {
       allProducts[randoThree].score++;
-      allProducts[randoThree].selected++;
+      allProducts[randoThree].selected = true;
     }
     genRandomNum();
     displayImages();

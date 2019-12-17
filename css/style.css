@@ -1,3 +1,6 @@
+* {
+  box-sizing: border-box;
+}
 body {
   margin: 0% 2%;
 }
@@ -12,9 +15,17 @@ header img {
 .header-text {
   float: right;
   margin-top: 27px;
+  margin-left: 5px;
 } 
 h1 {
+  font-family: 'Open-Sans', sans-serif;
+  font-weight: 1000;
+  font-style: italic;
+  font-size: 28px;
+}
+h1 strong {
   font-size: xx-large;
+  font-family: 'Faster One', cursive;
 }
 h2 {
   font-size: x-large;
