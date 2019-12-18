@@ -68,3 +68,9 @@ article {
 li {
   margin-bottom: 10px;
 }
+footer {
+  max-width: 1060px;
+}
+canvas {
+  margin-top: 20px;
+}
