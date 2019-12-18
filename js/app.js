@@ -7,6 +7,7 @@ var numOfRounds = 25;
 var randoOne, randoTwo, randoThree, prevRandoOne, prevRandoTwo, prevRandoThree;
 var productImage = document.getElementsByTagName('img');
 var resultsChart = document.getElementById('results-chart');
+var resultsPie = document.getElementById('results-pie');
 var lineHolder = document.getElementById('final-results');
 
 // Product constructor
@@ -140,16 +141,9 @@ function renderChart() {
   new Chart(resultsChart,{
     type: 'bar',
     data: {
-    // what does labels do?
       labels: getProductsArray('name'),
-      // what does datasets do?
-      // it's an array of objects
       datasets: [{
-      // what does this label do?
-      // key, legend
         label: '# of Votes',
-        // what does this data do?
-        // actually the values in the chart
         data: getProductsArray('score'),
         backgroundColor: getProductsArray('barColor'),
       }],
@@ -159,13 +153,37 @@ function renderChart() {
         yAxes: [{
           ticks: {
             beginAtZero: true,
-            stepSize: 1
-          }
-        }]
-      }
-    }
+            stepSize: 1,
+          },
+        }],
+      },
+    },
   });
-}
+  new Chart(resultsPie, {
+    type: 'doughnut',
+    data: {
+      labels: getProductsArray('name'),
+      datasets: [
+        {
+          backgroundColor: getProductsArray('barColor'),
+          data: getProductsArray('score'),
+        }
+      ],
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Percentage of Vote',
+      },
+      animation: {
+        onProgress: function(animation) {
+          ProgressEvent.value = animation.animationObject.currentStep /
+          animation.animationObject.numSteps;
+        },
+      },
+    },
+  });
+};
 
 genRandomNum();
 displayImages();
