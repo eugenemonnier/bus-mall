@@ -7,6 +7,7 @@ var numOfRounds = 25;
 var randoOne, randoTwo, randoThree, prevRandoOne, prevRandoTwo, prevRandoThree;
 var productImage = document.getElementsByTagName('img');
 var resultsChart = document.getElementById('results-chart');
+var percentageChart = document.getElementById('percentage-chart');
 var resultsPie = document.getElementById('results-pie');
 var lineHolder = document.getElementById('final-results');
 
@@ -18,17 +19,33 @@ function GetProducts(name, imageUrl) {
   this.score = 0;
   this.selected = false;
   this.barColor = makeRgbColor();
+  this.percentageScore = 0;
   allProducts.push(this);
 }
 
+GetProducts.prototype.displayResults = function() {
+  if(this.selected === true) {
+    var newLi = document.createElement('li');
+    newLi.textContent = `${this.name} had ${this.score} votes and was shown ${this.viewed} time(s).`;
+    lineHolder.appendChild(newLi);
+  }
+};
+
+// Calculate the percentage of the number of times the item was picked compared to how many times the item was viewed
+GetProducts.prototype.viewedVsSelected = function() {
+  if (this.viewed === 0) {
+    this.percentageScore = 0;
+  } else {
+    this.percentageScore = Math.round(this.score / this.viewed * 100);
+  }
+};
+
 function randomColorGen() {
-  return Math.floor(Math.random() * 255);
+  return Math.round(Math.random() * 255);
 }
 function makeRgbColor(){
   return `rgba(${randomColorGen()}, ${randomColorGen()}, ${randomColorGen()}, 1)`;
 }
-
-
 
 // build allProducts array
 new GetProducts('R2D2 Luggage', 'img/bag.jpg');
@@ -107,6 +124,7 @@ function picked() {
       productImage[i].removeEventListener('click', picked);
     }
     for(i = 0; i < allProducts.length; i++) {
+      allProducts[i].viewedVsSelected();
       allProducts[i].displayResults();
     }
     renderChart();
@@ -118,18 +136,9 @@ function picked() {
   totalClicks++;
 }
 
-GetProducts.prototype.displayResults = function() {
-  if(this.selected === true) {
-    var newLi = document.createElement('li');
-    newLi.textContent = `${this.name} had ${this.score} votes and was shown ${this.viewed} time(s).`;
-    lineHolder.appendChild(newLi);
-  }
-};
-
 function getProductsArray (prop) {
-  // debugger;
   var gottenProp = [];
-  for(var i = 0;  i < allProducts.length; i++) {
+  for(var i = 0; i < allProducts.length; i++) {
     if(allProducts[i].selected === true) {
       gottenProp.push(allProducts[i][prop]);
     }
@@ -145,6 +154,27 @@ function renderChart() {
       datasets: [{
         label: '# of Votes',
         data: getProductsArray('score'),
+        backgroundColor: getProductsArray('barColor'),
+      }],
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            stepSize: 1,
+          },
+        }],
+      },
+    },
+  });
+  new Chart(percentageChart,{
+    type: 'bar',
+    data: {
+      labels: getProductsArray('name'),
+      datasets: [{
+        label: '% of Times Picked vs Viewed',
+        data: getProductsArray('percentageScore'),
         backgroundColor: getProductsArray('barColor'),
       }],
     },
@@ -183,7 +213,7 @@ function renderChart() {
       },
     },
   });
-};
+}
 
 genRandomNum();
 displayImages();
