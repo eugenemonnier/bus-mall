@@ -47,6 +47,21 @@ function makeRgbColor(){
   return `rgba(${randomColorGen()}, ${randomColorGen()}, ${randomColorGen()}, 1)`;
 }
 
+// store allProducts to localStorage
+function storeProducts(){
+  localStorage.setItem('allProductsString', JSON.stringify(allProducts));
+}
+
+// retrieve localStorage and build allProducts
+function getProducts(){
+  var retrievedProductsParsed = JSON.parse(localStorage.getItem('allProductsString'));
+
+  for(var i = 0; i < retrievedProductsParsed.length; i++) {
+    new GetProducts(retrievedProductsParsed[i].name, retrievedProductsParsed[i].imageUrl);
+  }
+}
+
+
 // build allProducts array
 new GetProducts('R2D2 Luggage', 'img/bag.jpg');
 new GetProducts('Banana Slicer', 'img/banana.jpg');
@@ -168,6 +183,7 @@ function renderChart() {
       },
     },
   });
+  // eslint-disable-next-line no-undef
   new Chart(percentageChart,{
     type: 'bar',
     data: {
@@ -189,6 +205,7 @@ function renderChart() {
       },
     },
   });
+  // eslint-disable-next-line no-undef
   new Chart(resultsPie, {
     type: 'doughnut',
     data: {
