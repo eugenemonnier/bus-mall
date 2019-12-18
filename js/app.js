@@ -3,9 +3,11 @@
 // Global variables
 var allProducts = [];
 var totalClicks = 0;
-var numOfRounds = 5;
+var numOfRounds = 25;
 var randoOne, randoTwo, randoThree, prevRandoOne, prevRandoTwo, prevRandoThree;
 var productImage = document.getElementsByTagName('img');
+var resultsChart = document.getElementById('results-chart');
+var resultsPie = document.getElementById('results-pie');
 var lineHolder = document.getElementById('final-results');
 
 // Product constructor
@@ -15,8 +17,18 @@ function GetProducts(name, imageUrl) {
   this.viewed = 0;
   this.score = 0;
   this.selected = false;
+  this.barColor = makeRgbColor();
   allProducts.push(this);
 }
+
+function randomColorGen() {
+  return Math.floor(Math.random() * 255);
+}
+function makeRgbColor(){
+  return `rgba(${randomColorGen()}, ${randomColorGen()}, ${randomColorGen()}, 1)`;
+}
+
+
 
 // build allProducts array
 new GetProducts('R2D2 Luggage', 'img/bag.jpg');
@@ -97,6 +109,7 @@ function picked() {
     for(i = 0; i < allProducts.length; i++) {
       allProducts[i].displayResults();
     }
+    renderChart();
   }
   if (totalClicks < numOfRounds - 1) {
     genRandomNum();
@@ -111,6 +124,65 @@ GetProducts.prototype.displayResults = function() {
     newLi.textContent = `${this.name} had ${this.score} votes and was shown ${this.viewed} time(s).`;
     lineHolder.appendChild(newLi);
   }
+};
+
+function getProductsArray (prop) {
+  // debugger;
+  var gottenProp = [];
+  for(var i = 0;  i < allProducts.length; i++) {
+    if(allProducts[i].selected === true) {
+      gottenProp.push(allProducts[i][prop]);
+    }
+  }
+  return gottenProp;
+}
+function renderChart() {
+// eslint-disable-next-line no-undef
+  new Chart(resultsChart,{
+    type: 'bar',
+    data: {
+      labels: getProductsArray('name'),
+      datasets: [{
+        label: '# of Votes',
+        data: getProductsArray('score'),
+        backgroundColor: getProductsArray('barColor'),
+      }],
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            stepSize: 1,
+          },
+        }],
+      },
+    },
+  });
+  new Chart(resultsPie, {
+    type: 'doughnut',
+    data: {
+      labels: getProductsArray('name'),
+      datasets: [
+        {
+          backgroundColor: getProductsArray('barColor'),
+          data: getProductsArray('score'),
+        }
+      ],
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Percentage of Vote',
+      },
+      animation: {
+        onProgress: function(animation) {
+          ProgressEvent.value = animation.animationObject.currentStep /
+          animation.animationObject.numSteps;
+        },
+      },
+    },
+  });
 };
 
 genRandomNum();
