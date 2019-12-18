@@ -3,7 +3,7 @@
 // Global variables
 var allProducts = [];
 var totalClicks = 0;
-var numOfRounds = 5;
+var numOfRounds = 25;
 var randoOne, randoTwo, randoThree, prevRandoOne, prevRandoTwo, prevRandoThree;
 var productImage = document.getElementsByTagName('img');
 var resultsChart = document.getElementById('results-chart');
@@ -24,7 +24,7 @@ function randomColorGen() {
   return Math.floor(Math.random() * 255);
 }
 function makeRgbColor(){
-  return `rgb(${randomColorGen()}, ${randomColorGen()}, ${randomColorGen()})`;
+  return `rgba(${randomColorGen()}, ${randomColorGen()}, ${randomColorGen()}, 1)`;
 }
 
 
@@ -126,10 +126,11 @@ GetProducts.prototype.displayResults = function() {
 };
 
 function getProductsArray (prop) {
+  // debugger;
   var gottenProp = [];
   for(var i = 0;  i < allProducts.length; i++) {
     if(allProducts[i].selected === true) {
-      gottenProp[i] = allProducts[i][prop];
+      gottenProp.push(allProducts[i][prop]);
     }
   }
   return gottenProp;
@@ -150,10 +151,8 @@ function renderChart() {
         // what does this data do?
         // actually the values in the chart
         data: getProductsArray('score'),
-        backgroundColor: [
-          getProductsArray('barColor')
-        ],
-      }]
+        backgroundColor: getProductsArray('barColor'),
+      }],
     },
     options: {
       scales: {
