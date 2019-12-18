@@ -6,6 +6,7 @@ var totalClicks = 0;
 var numOfRounds = 5;
 var randoOne, randoTwo, randoThree, prevRandoOne, prevRandoTwo, prevRandoThree;
 var productImage = document.getElementsByTagName('img');
+var resultsChart = document.getElementById('results-chart');
 var lineHolder = document.getElementById('final-results');
 
 // Product constructor
@@ -15,8 +16,18 @@ function GetProducts(name, imageUrl) {
   this.viewed = 0;
   this.score = 0;
   this.selected = false;
+  this.barColor = makeRgbColor();
   allProducts.push(this);
 }
+
+function randomColorGen() {
+  return Math.floor(Math.random() * 255);
+}
+function makeRgbColor(){
+  return `rgb(${randomColorGen()}, ${randomColorGen()}, ${randomColorGen()})`;
+}
+
+
 
 // build allProducts array
 new GetProducts('R2D2 Luggage', 'img/bag.jpg');
@@ -97,6 +108,7 @@ function picked() {
     for(i = 0; i < allProducts.length; i++) {
       allProducts[i].displayResults();
     }
+    renderChart();
   }
   if (totalClicks < numOfRounds - 1) {
     genRandomNum();
@@ -112,6 +124,49 @@ GetProducts.prototype.displayResults = function() {
     lineHolder.appendChild(newLi);
   }
 };
+
+function getProductsArray (prop) {
+  var gottenProp = [];
+  for(var i = 0;  i < allProducts.length; i++) {
+    if(allProducts[i].selected === true) {
+      gottenProp[i] = allProducts[i][prop];
+    }
+  }
+  return gottenProp;
+}
+function renderChart() {
+// eslint-disable-next-line no-undef
+  new Chart(resultsChart,{
+    type: 'bar',
+    data: {
+    // what does labels do?
+      labels: getProductsArray('name'),
+      // what does datasets do?
+      // it's an array of objects
+      datasets: [{
+      // what does this label do?
+      // key, legend
+        label: '# of Votes',
+        // what does this data do?
+        // actually the values in the chart
+        data: getProductsArray('score'),
+        backgroundColor: [
+          getProductsArray('barColor')
+        ],
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            stepSize: 1
+          }
+        }]
+      }
+    }
+  });
+}
 
 genRandomNum();
 displayImages();
