@@ -44,7 +44,7 @@ GetProducts.prototype.viewedVsSelected = function() {
 function randomColorGen() {
   return Math.round(Math.random() * 255);
 }
-// returns concat string of RGB value 
+// returns concat string of RGB value
 function makeRgbColor(){
   return `rgba(${randomColorGen()}, ${randomColorGen()}, ${randomColorGen()}, 1)`;
 }
