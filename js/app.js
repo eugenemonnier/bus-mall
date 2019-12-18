@@ -12,17 +12,18 @@ var resultsPie = document.getElementById('results-pie');
 var lineHolder = document.getElementById('final-results');
 
 // Product constructor
-function GetProducts(name, imageUrl) {
+function GetProducts(name, imageUrl, viewed = 0, score = 0, selected = 0, barColor = makeRgbColor()) {
   this.name = name;
   this.imageUrl = imageUrl;
-  this.viewed = 0;
-  this.score = 0;
-  this.selected = false;
-  this.barColor = makeRgbColor();
+  this.viewed = viewed;
+  this.score = score;
+  this.selected = selected;
+  this.barColor = barColor;
   this.percentageScore = 0;
   allProducts.push(this);
 }
 
+// displays text results in <aside>
 GetProducts.prototype.displayResults = function() {
   if(this.selected === true) {
     var newLi = document.createElement('li');
@@ -39,35 +40,59 @@ GetProducts.prototype.viewedVsSelected = function() {
     this.percentageScore = Math.round(this.score / this.viewed * 100);
   }
 };
-
+// generates random number between 0 - 255
 function randomColorGen() {
   return Math.round(Math.random() * 255);
 }
+// returns concat string of RGB value
 function makeRgbColor(){
   return `rgba(${randomColorGen()}, ${randomColorGen()}, ${randomColorGen()}, 1)`;
 }
 
+// store allProducts to localStorage
+function storeProducts(){
+  localStorage.setItem('allProductsString', JSON.stringify(allProducts));
+}
+
+// retrieve localStorage and build allProducts
+function getProducts(){
+  var retrievedProductsParsed = JSON.parse(localStorage.getItem('allProductsString'));
+  for(var i = 0; i < retrievedProductsParsed.length; i++) {
+    new GetProducts(
+      retrievedProductsParsed[i].name, retrievedProductsParsed[i].imageUrl,
+      retrievedProductsParsed[i].viewed,
+      retrievedProductsParsed[i].score,
+      retrievedProductsParsed[i].selected,
+      retrievedProductsParsed[i].barColor);
+  }
+}
 // build allProducts array
-new GetProducts('R2D2 Luggage', 'img/bag.jpg');
-new GetProducts('Banana Slicer', 'img/banana.jpg');
-new GetProducts('Toilet Stand', 'img/bathroom.jpg');
-new GetProducts('Open-Toed Rain Boots', 'img/boots.jpg');
-new GetProducts('Breakfast Station', 'img/breakfast.jpg');
-new GetProducts('Meatball Bubble Gum', 'img/bubblegum.jpg');
-new GetProducts('Concave Ass Chair', 'img/chair.jpg');
-new GetProducts('Cthulu Figurine', 'img/cthulhu.jpg');
-new GetProducts('Dog Muzzle - Duck', 'img/dog-duck.jpg');
-new GetProducts('Can o\' Dragon Meat', 'img/dragon.jpg');
-new GetProducts('Pen Cap Utensils', 'img/pen.jpg');
-new GetProducts('Pet Sweep Dog Shoes', 'img/pet-sweep.jpg');
-new GetProducts('Pizza Scissors', 'img/scissors.jpg');
-new GetProducts('Man-Eating Shark Sleeping Bag', 'img/shark.jpg');
-new GetProducts('Sweeping Baby Onsie', 'img/sweep.png');
-new GetProducts('Gutted Tauntaun Sleeping Bag', 'img/tauntaun.jpg');
-new GetProducts('Can o\' Unicorn Meat', 'img/unicorn.jpg');
-new GetProducts('Tentacle USB Drive 128MB', 'img/usb.gif');
-new GetProducts('Self-Watering Water Can', 'img/water-can.jpg');
-new GetProducts('Smell This Wine Glass', 'img/wine-glass.jpg');
+// if localStorage is empty
+if (localStorage.getItem('allProductsString') === null) {
+  new GetProducts('R2D2 Luggage', 'img/bag.jpg');
+  new GetProducts('Banana Slicer', 'img/banana.jpg');
+  new GetProducts('Toilet Stand', 'img/bathroom.jpg');
+  new GetProducts('Open-Toed Rain Boots', 'img/boots.jpg');
+  new GetProducts('Breakfast Station', 'img/breakfast.jpg');
+  new GetProducts('Meatball Bubble Gum', 'img/bubblegum.jpg');
+  new GetProducts('Concave Ass Chair', 'img/chair.jpg');
+  new GetProducts('Cthulu Figurine', 'img/cthulhu.jpg');
+  new GetProducts('Dog Muzzle - Duck', 'img/dog-duck.jpg');
+  new GetProducts('Can o\' Dragon Meat', 'img/dragon.jpg');
+  new GetProducts('Pen Cap Utensils', 'img/pen.jpg');
+  new GetProducts('Pet Sweep Dog Shoes', 'img/pet-sweep.jpg');
+  new GetProducts('Pizza Scissors', 'img/scissors.jpg');
+  new GetProducts('Man-Eating Shark Sleeping Bag', 'img/shark.jpg');
+  new GetProducts('Sweeping Baby Onsie', 'img/sweep.png');
+  new GetProducts('Gutted Tauntaun Sleeping Bag', 'img/tauntaun.jpg');
+  new GetProducts('Can o\' Unicorn Meat', 'img/unicorn.jpg');
+  new GetProducts('Tentacle USB Drive 128MB', 'img/usb.gif');
+  new GetProducts('Self-Watering Water Can', 'img/water-can.jpg');
+  new GetProducts('Smell This Wine Glass', 'img/wine-glass.jpg');
+  // if localStorage has key allProductsString
+} else {
+  getProducts();
+}
 
 // Generate random number be 0-19
 function genRandomNum() {
@@ -133,9 +158,11 @@ function picked() {
     genRandomNum();
     displayImages();
   }
+  storeProducts();
   totalClicks++;
 }
 
+// creates an array of values specified by argument entered for prop
 function getProductsArray (prop) {
   var gottenProp = [];
   for(var i = 0; i < allProducts.length; i++) {
@@ -168,6 +195,7 @@ function renderChart() {
       },
     },
   });
+  // eslint-disable-next-line no-undef
   new Chart(percentageChart,{
     type: 'bar',
     data: {
@@ -189,6 +217,7 @@ function renderChart() {
       },
     },
   });
+  // eslint-disable-next-line no-undef
   new Chart(resultsPie, {
     type: 'doughnut',
     data: {
