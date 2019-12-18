@@ -3,7 +3,7 @@
 // Global variables
 var allProducts = [];
 var totalClicks = 0;
-var numOfRounds = 5;
+var numOfRounds = 25;
 var randoOne, randoTwo, randoThree, prevRandoOne, prevRandoTwo, prevRandoThree;
 var productImage = document.getElementsByTagName('img');
 var lineHolder = document.getElementById('final-results');
