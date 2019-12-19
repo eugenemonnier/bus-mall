@@ -68,7 +68,7 @@
 
 -   Implement local storage into your current application
 -   Make sure the data persists across both browser refreshes and resets
->Created functions **storeProducts()** & **getProducts** to store and retrieve **allProducts** data. 
+>Created functions **storeProducts()** & **getProducts** to store and retrieve **allProducts** data.  
 >Added statement to check if localStorage has content and either return stored data to or build new **allProducts** array objects. 
 
 ## Additional Features
