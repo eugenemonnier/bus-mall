@@ -12,7 +12,6 @@ var resultsPie = document.getElementById('results-pie');
 var lineHolder = document.getElementById('final-results');
 var prevButton = document.getElementById('prev-button');
 var nextButton = document.getElementById('next-button');
-// var graphArray = ['results-chart', 'percentage-chart', 'results-pie'];
 var graphIndex = 0;
 
 // add event listeners for previous and next buttons
@@ -212,7 +211,7 @@ function picked() {
       allProducts[i].displayResults();
     }
     document.getElementById('select-graph').style.visibility = 'visible';
-    renderScoreChart();
+    renderChart();
   }
   if (totalClicks < numOfRounds - 1) {
     genRandomNum();
@@ -232,7 +231,7 @@ function getProductsArray (prop) {
   }
   return gottenProp;
 }
-function renderScoreChart() {
+function renderChart() {
 // eslint-disable-next-line no-undef
   new Chart(resultsChart,{
     type: 'bar',
