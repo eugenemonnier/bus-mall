@@ -71,6 +71,35 @@ li {
 footer {
   max-width: 1060px;
 }
-canvas {
-  margin-top: 20px;
+#select-graph {
+  display: block;
+  margin: 20px 38%;
+  visibility: hidden;
+}
+footer a {
+  color: #000;
+  margin: 10px;
+  text-decoration: none;
+  padding: 4px 13px 10px;
+  border-radius: 50%;
+  background-color: #ddd;
+  border: 2px solid #000;
+  font-size: 30px;
+  font-weight: bold;
+}
+footer a:hover {
+  background-color: #aaa;
+}
+footer h2 {
+  display: inline;
+}
+#percentage-chart {
+  visibility: hidden;
+}
+#results-pie {
+  visibility: hidden;
+}
+.canvas-block {
+  display: block;
+  margin: 0px;
 }

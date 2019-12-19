@@ -10,6 +10,65 @@ var resultsChart = document.getElementById('results-chart');
 var percentageChart = document.getElementById('percentage-chart');
 var resultsPie = document.getElementById('results-pie');
 var lineHolder = document.getElementById('final-results');
+var prevButton = document.getElementById('prev-button');
+var nextButton = document.getElementById('next-button');
+// var graphArray = ['results-chart', 'percentage-chart', 'results-pie'];
+var graphIndex = 0;
+
+// add event listeners for previous and next buttons
+prevButton.addEventListener('click', prevGraph);
+nextButton.addEventListener('click', nextGraph);
+
+// switch statement to render render various graphs
+function switchGraph() {
+  switch(graphIndex){
+  case 0:
+    document.getElementById('results-chart').style.visibility = 'visible';
+    document.getElementById('results-chart').style.height = '530px';
+    document.getElementById('results-pie').style.visibility = 'hidden';
+    document.getElementById('results-pie').style.height = '0px';
+    document.getElementById('percentage-chart').style.visibility = 'hidden';
+    document.getElementById('percentage-chart').style.height = '0px';
+    break;
+  case 1:
+    document.getElementById('results-chart').style.visibility = 'hidden';
+    document.getElementById('results-chart').style.height = '0px';
+    document.getElementById('results-pie').style.visibility = 'hidden';
+    document.getElementById('results-pie').style.height = '0px';
+    document.getElementById('percentage-chart').style.visibility = 'visible';
+    document.getElementById('percentage-chart').style.height = '530px';
+    break;
+  case 2:
+    document.getElementById('results-chart').style.visibility = 'hidden';
+    document.getElementById('results-chart').style.height = '0px';
+    document.getElementById('results-pie').style.visibility = 'visible';
+    document.getElementById('results-pie').style.height = '530px';
+    document.getElementById('percentage-chart').style.visibility = 'hidden';
+    document.getElementById('percentage-chart').style.height = '0px';
+  }
+}
+
+// set graph to previous graph and jump to prev anchor
+function prevGraph() {
+  if(graphIndex === 0) {
+    graphIndex = 2;
+  } else {
+    graphIndex--;
+  }
+  switchGraph();
+  location.href = '#prev-button';
+}
+
+// set graph to next graph and jump to next anchor
+function nextGraph() {
+  if(graphIndex === 2) {
+    graphIndex = 0;
+  } else {
+    graphIndex++;
+  }
+  switchGraph();
+  location.href = '#next-button';
+}
 
 // Product constructor
 function GetProducts(name, imageUrl, viewed = 0, score = 0, selected = 0, barColor = makeRgbColor()) {
@@ -152,7 +211,8 @@ function picked() {
       allProducts[i].viewedVsSelected();
       allProducts[i].displayResults();
     }
-    renderChart();
+    document.getElementById('select-graph').style.visibility = 'visible';
+    renderScoreChart();
   }
   if (totalClicks < numOfRounds - 1) {
     genRandomNum();
@@ -172,7 +232,7 @@ function getProductsArray (prop) {
   }
   return gottenProp;
 }
-function renderChart() {
+function renderScoreChart() {
 // eslint-disable-next-line no-undef
   new Chart(resultsChart,{
     type: 'bar',
@@ -196,7 +256,7 @@ function renderChart() {
     },
   });
   // eslint-disable-next-line no-undef
-  new Chart(percentageChart,{
+  new Chart(percentageChart.getContext('2d'),{
     type: 'bar',
     data: {
       labels: getProductsArray('name'),
