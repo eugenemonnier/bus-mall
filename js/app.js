@@ -44,6 +44,9 @@ function switchGraph() {
     document.getElementById('results-pie').style.height = '530px';
     document.getElementById('percentage-chart').style.visibility = 'hidden';
     document.getElementById('percentage-chart').style.height = '0px';
+    break;
+  default:
+    //do nothing
   }
 }
 
